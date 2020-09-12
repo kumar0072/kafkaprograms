@@ -1,0 +1,102 @@
+Kafka Important Notes:
+
+Download kafka client jar and start the configuration
+
+Change the kafka and zookeeper properties files for temporary path
+
+Dir parth of kafka >> C:\kafka\bin\windows
+in this path all the bat files  recides
+
+
+start zookeeper >> zookeeper-server-start.bat C:\kafka\config\zookeeper.properties
+
+start kafka >> kafka-server-start.bat C:\kafka\config\server.properties
+
+Creating  topic in cluster 
+kafka-topics.bat --zookeeper 127.0.0.1:2181 --topic first_topic --create --partitions 3 --replication-factor 1
+
+listing all created  topic
+kafka-topics.bat --zookeeper 127.0.0.1:2181 --list
+
+getting info about one topic.
+kafka-topics.bat --zookeeper 127.0.0.1:2181 --topic first_topic --describe
+
+
+start a procucer in kafka and start putting data in to it.
+kafka-console-producer.bat --broker-list 127.0.0.1:9092 --topic first_topic
+
+
+start a consumer in kafka and start putting data in to it.
+kafka-console-consumer.bat --bootstrap-server 127.0.0.1:9092 --topic first_topic
+
+
+>>  consumer reads all msg from start.
+kafka-console-consumer.bat --bootstrap-server 127.0.0.1:9092 --topic first_topic --from-beginning
+
+
+Consumer group concept : 
+kafka-console-consumer.bat --bootstrap-server 127.0.0.1:9092 --topic first_topic --group myapplication
+
+kafka-console-consumer.bat --bootstrap-server 127.0.0.1:9092 --topic first_topic --group myapplication
+
+
+kafka-console-consumer.bat --bootstrap-server 127.0.0.1:9092 --topic first_topic --group myapplication
+
+
+if we start the command in 3 cmd then it will create three consumer under same group  and they will read data from 3 partition of first_topic
+
+
+Consumer group commit offset ( so since a mssg is read it can't ve read again)
+
+
+To list all consumer group of kafka
+kafka-consumer-group.bat --bootstrap-server 127.0.0.1:9092 --list
+
+
+to check details of specific consumer group
+kafka-consumer-groups.bat --bootstrap-server 127.0.0.1:9092 --describe --group myapplication
+
+command also used for checking the tops have consumer ot not
+
+Reset offset  command also important it allow you to reset the offset so you an read your msg from specific ofset.(mostly for administrative purpose).
+(there are a lot of opyions come with reset offset.. have a look of documentation)
+
+
+
+Producer with specific key (so all msg of specific key go to same partition and consumer can read the data from same partition in sequential order.)
+
+kafka-console-producer --broker-list 127.0.0.1:9092 --topic first_topic --property parse.key=true --property key.separator=,
+> key,value
+> another key,another value
+
+Consumer with specific key
+kafka-console-consumer --bootstrap-server 127.0.0.1:9092 --topic first_topic --from-beginning --property print.key=true --property key.separator=,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
